@@ -443,7 +443,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common -fshort-wchar \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
-		   -std=gnu89
+		   -std=gnu89 -fno-stack-protector
 KBUILD_CPPFLAGS := -D__KERNEL__
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
@@ -866,11 +866,13 @@ endif
 # until after .config has been reprocessed, in the prepare-compiler-check
 # target.
 ifdef CONFIG_CC_STACKPROTECTOR_REGULAR
-  stackp-flag := -fstack-protector
+  stackp-flag := 
+###              -fstack-protector
   stackp-name := REGULAR
 else
 ifdef CONFIG_CC_STACKPROTECTOR_STRONG
-  stackp-flag := -fstack-protector-strong
+  stackp-flag := 
+###              -fstack-protector-strong
   stackp-name := STRONG
 else
   # Force off for distro compilers that enable stack protector by default.
@@ -1988,3 +1990,5 @@ do_pc_lint_all : $(vmlinux-all) FORCE
 	@:
 
 pc_lint_all : do_pc_lint_all
+
+KBUILD_CFLAGS += -fno-stack-protector

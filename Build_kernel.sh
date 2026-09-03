@@ -30,11 +30,12 @@ start_time_sum=$(date +%s)
 
 # 提示用户选择选项
 echo "请选择一个选项："
-echo "1. 设置defconfig参数为Nova4e"
-echo "2. 设置defconfig参数为荣耀8X"
-echo "3. 设置defconfig参数为默认710配置"
-echo "4. 设置defconfig参数为Nova3i"
-echo "请输入数字1到4"
+echo "1. 设置defconfig参数为默认710配置"
+echo "2. 设置defconfig参数为Nova3i"
+echo "3. 设置defconfig参数为Nova4e"
+echo "4. 设置defconfig参数为Nova5i"
+echo "5. 设置defconfig参数为荣耀8X"
+echo "请输入数字1~5"
 
 # 读取用户输入的选项
 read choice
@@ -42,16 +43,19 @@ read choice
 # 根据用户选择设置defconfig参数
 case $choice in
   1)
-    defconfig="Nova4e_Kirin710_KSU_defconfig"
-    ;;
-  2)
-    defconfig="JSN_kirin710_KSU_defconfig"
-    ;;
-  3)
     defconfig="kirin710_KSU_defconfig"
     ;;
-  4)
+  2)
     defconfig="Nove3i_kirin710_KSU_defconfig"
+    ;;
+  3)
+    defconfig="Nova4e_Kirin710_KSU_defconfig"
+    ;;
+  4)
+    defconfig="Nova5i_KSU_defconfig"
+    ;;
+  5)
+    defconfig="JSN_kirin710_KSU_defconfig"
     ;;
   *)
     echo "无效的选项"

@@ -98,6 +98,17 @@ extern void init_IRQ(void);
 extern void fork_init(void);
 extern void radix_tree_init(void);
 
+#ifdef CONFIG_CC_STACKPROTECTOR_NONE
+unsigned long __stack_chk_guard __attribute__((used)) = 0;
+EXPORT_SYMBOL(__stack_chk_guard);
+
+void __stack_chk_fail(void)
+{
+    panic("stack-protector: kernel stack is corrupted\n");
+}
+EXPORT_SYMBOL(__stack_chk_fail);
+#endif
+
 /*
  * Debug helper: via this flag we know that we are in 'early bootup code'
  * where only the boot processor is running with IRQ disabled.  This means
