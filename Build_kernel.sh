@@ -34,7 +34,8 @@ echo "1. 设置defconfig参数为默认710配置"
 echo "2. 设置defconfig参数为Nova3i"
 echo "3. 设置defconfig参数为Nova4e"
 echo "4. 设置defconfig参数为Nova5i"
-echo "5. 设置defconfig参数为荣耀8X"
+echo "5. 设置defconfig参数为Nova5i（带Droidspaces支持）"
+echo "6. 设置defconfig参数为荣耀8X"
 echo "请输入数字1~5"
 
 # 读取用户输入的选项
@@ -55,6 +56,9 @@ case $choice in
     defconfig="Nova5i_KSU_defconfig"
     ;;
   5)
+    defconfig="Nova5i_DKSU_defconfig"
+    ;;
+  6)
     defconfig="JSN_kirin710_KSU_defconfig"
     ;;
   *)
