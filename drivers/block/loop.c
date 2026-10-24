@@ -1344,6 +1344,28 @@ static int loop_set_dio(struct loop_device *lo, unsigned long arg)
 	return error;
 }
 
+static int loop_set_block_size(struct loop_device *lo, unsigned long arg)
+{
+	int err = 0;
+
+	if (lo->lo_state != Lo_bound)
+		return -ENXIO;
+
+	if (!arg || (arg & (arg - 1)))
+		return -EINVAL;
+
+	blk_mq_freeze_queue(lo->lo_queue);
+
+	lo->lo_blocksize = arg;
+	blk_queue_logical_block_size(lo->lo_queue, arg);
+	blk_queue_physical_block_size(lo->lo_queue, arg);
+	blk_queue_io_min(lo->lo_queue, arg);
+	loop_update_dio(lo);
+	blk_mq_unfreeze_queue(lo->lo_queue);
+
+	return err;
+}
+
 static int lo_ioctl(struct block_device *bdev, fmode_t mode,
 	unsigned int cmd, unsigned long arg)
 {
@@ -1386,6 +1408,11 @@ static int lo_ioctl(struct block_device *bdev, fmode_t mode,
 		err = -EPERM;
 		if ((mode & FMODE_WRITE) || capable(CAP_SYS_ADMIN))
 			err = loop_set_capacity(lo, bdev);
+		break;
+	case LOOP_SET_BLOCK_SIZE:
+		err = -EPERM;
+		if ((mode & FMODE_WRITE) || capable(CAP_SYS_ADMIN))
+			err = loop_set_block_size(lo, arg);
 		break;
 	case LOOP_SET_DIRECT_IO:
 		err = -EPERM;
